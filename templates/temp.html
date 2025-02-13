@@ -1,0 +1,43 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // ... (keep existing initialization code)
+
+    // Handle vaccine selection (by vaccine)
+    vaccineDirectSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        let schedules = [];
+        
+        if (selectedOption && selectedOption.dataset.schedules) {
+            try {
+                schedules = JSON.parse(selectedOption.dataset.schedules);
+            } catch (e) {
+                console.error('Error parsing schedules data:', e);
+            }
+        }
+        
+        // Enable/disable and populate schedule select
+        scheduleVaccineSelect.disabled = !this.value;
+        scheduleVaccineSelect.innerHTML = '<option value="">Select a date and location...</option>';
+        
+        if (schedules.length > 0) {
+            schedules.forEach(schedule => {
+                const option = document.createElement('option');
+                option.value = schedule.id;  // Changed from schedule_id to id to match the backend data
+                const date = new Date(schedule.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                option.textContent = ${date} - ${schedule.centre_name}; // Changed from centre.name to centre_name
+                scheduleVaccineSelect.appendChild(option);
+            });
+        } else {
+            const option = document.createElement('option');
+            option.value = "";
+            option.textContent = "No available schedules for this vaccine";
+            option.disabled = true;
+            scheduleVaccineSelect.appendChild(option);
+        }
+    });
+
+    // ... (keep rest of the code)
+});

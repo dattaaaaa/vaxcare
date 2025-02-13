@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VaxCare{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #93c5fd;
+            --accent-color: #dbeafe;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .btn-primary {
+            @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200;
+        }
+
+        .btn-secondary {
+            @apply inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200;
+        }
+
+        .btn-danger {
+            @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200;
+        }
+
+        .card {
+            @apply bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-200 hover:shadow-xl;
+        }
+
+        .form-input {
+            @apply mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200;
+        }
+
+        .form-select {
+            @apply mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md transition-all duration-200;
+        }
+
+        /* Mobile menu animations */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Animation classes */
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 300ms, transform 300ms;
+        }
+
+        @keyframes slide-in {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slide-in 0.3s ease-out forwards;
+        }
+
+        /* Full width container for home page */
+        .full-width-container {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center space-x-2 hover:text-primary-600 transition-colors duration-200">
+                        <i class="fas fa-syringe text-primary-600 text-2xl"></i>
+                        <span class="text-xl font-bold text-gray-800">VaxCare</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex md:items-center md:space-x-8">
+                    <a href="{{ url_for('index') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900">Home</a>
+                    {% if current_user.is_authenticated and current_user.role == 'user' %}
+                        <a href="{{ url_for('dashboard') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">Dashboard</a>
+                        <a href="{{ url_for('chat_interface') }}" class="nav-link inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg shadow-sm border border-gray-300 text-gray-700 bg-white hover:bg-blue-50 hover:text-blue-600 transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2a10 10 0 00-7.07 17.07l-.93 3.72a1 1 0 001.26 1.26l3.72-.93A10 10 0 1012 2zm-1 14v-2h2v2h-2zm0-4V7h2v5h-2z"/>
+                            </svg>
+                            Ask AI
+                        </a>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('book_appointment') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">Book Appointment</a>
+                        <a href="{{ url_for('view_certificates') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">My Vaccinations</a>
+                    {% endif %}
+                    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                        <a href="{{ url_for('manage_vaccines') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">Manage Vaccines</a>
+                        <a href="{{ url_for('manage_schedules') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">Manage Schedules</a>
+                        <a href="{{ url_for('manage_centres') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">Manage Centres</a>
+                        <a href="{{ url_for('manage_inventory') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">Manage Inventory</a>
+                        <a href="{{ url_for('admin_appointments') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">All Appointments</a>
+                    {% endif %}
+                    {% if current_user.is_authenticated and current_user.role == 'vaccine_admin' %}
+                        <a href="{{ url_for('dashboard') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">Dashboard</a>
+                        <a href="{{ url_for('manage_schedules') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">Manage Schedules</a>
+                        <a href="{{ url_for('view_certificates') }}" class="nav-link inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500">My Vaccinations</a>
+                    {% endif %}
+                </div>
+
+                <!-- User Menu (Desktop) -->
+                <div class="hidden md:flex md:items-center md:space-x-4">
+                    {% if current_user.is_authenticated %}
+                        <div class="relative group">
+                            <button class="flex items-center space-x-2 focus:outline-none">
+                                <img class="h-8 w-8 rounded-full object-cover" src="https://img.icons8.com/fluency/96/000000/user-male-circle.png" alt="">
+                                <span class="text-sm font-medium text-gray-700">{{ current_user.email }}</span>
+                                <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+                            </button>
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block">
+                                <a href="{{ url_for('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                                <a href="{{ url_for('logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('logout') }}" class="btn-primary">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('register') }}" class="btn-primary">Register</a>
+                        <a href="{{ url_for('login') }}" class="btn-primary">Login</a>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                        <span class="sr-only">Open menu</span>
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="mobile-menu fixed inset-y-0 left-0 w-64 bg-white shadow-xl z-50 md:hidden">
+            <div class="h-full flex flex-col">
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-shrink-0 flex items-center space-x-2">
+                            <i class="fas fa-syringe text-primary-600 text-xl"></i>
+                            <span class="text-lg font-bold text-gray-800">VaxCare</span>
+                        </div>
+                        <button id="close-mobile-menu" class="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-y-auto">
+                    <div class="px-2 py-4 space-y-1">
+                        <a href="{{ url_for('index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Home</a>
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Dashboard</a>
+                            <a href="{{ url_for('book_appointment') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Book Appointment</a>
+                            <a href="{{ url_for('view_certificates') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">My Vaccinations</a>
+                            {% if current_user.role == 'admin' %}
+                                <a href="{{ url_for('manage_vaccines') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Manage Vaccines</a>
+                                <a href="{{ url_for('manage_schedules') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Manage Schedules</a>
+                                <a href="{{ url_for('manage_centres') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Manage Centres</a>
+                                <a href="{{ url_for('manage_inventory') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Manage Inventory</a>
+                                <a href="{{ url_for('admin_appointments') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">All Appointments</a>
+                            {% endif %}
+                            {% if current_user.role == 'user' %}
+                                <a href="{{ url_for('chat_interface') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                                    <span class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2a10 10 0 00-7.07 17.07l-.93 3.72a1 1 0 001.26 1.26l3.72-.93A10 10 0 1012 2zm-1 14v-2h2v2h-2zm0-4V7h2v5h-2z"/>
+                                        </svg>
+                                        Ask AI
+                                    </span>
+                                </a>
+                            {% endif %}
+                            <div class="border-t border-gray-200 my-4"></div>
+                            <div class="px-3">
+                                <div class="flex items-center space-x-3 mb-4">
+                                    <img class="h-8 w-8 rounded-full" src="https://img.icons8.com/fluency/96/000000/user-male-circle.png" alt="">
+                                    <span class="text-sm font-medium text-gray-700">{{ current_user.email }}</span>
+                                </div>
+                                <a href="{{ url_for('logout') }}" class="block w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-md hover:bg-blue-700">Logout</a>
+                            </div>
+                        {% else %}
+                            <div class="px-3 space-y-2">
+                                <a href="{{ url_for('register') }}" class="block w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-md hover:bg-blue-700">Register</a>
+                                <a href="{{ url_for('login') }}" class="block w-full px-4 py-2 text-sm font-medium text-center text-gray-700 bg-gray-50 rounded-md hover:bg-gray-100">Login</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="fixed top-4 right-4 z-50 space-y-2">
+                {% for category, message in messages %}
+                    <div class="slide-in rounded-lg shadow-lg {% if category == 'error' %}bg-red-50{% else %}bg-green-50{% endif %} p-4" style="max-width: calc(100vw - 2rem); min-width: 300px;">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                {% if category == 'error' %}
+                                    <i class="fas fa-exclamation-circle text-red-400"></i>
+                                {% else %}
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                {% endif %}
+                            </div>
+                            <div class="ml-3 w-0 flex-1">
+                                <p class="text-sm font-medium {% if category == 'error' %}text-red-800{% else %}text-green-800{% endif %}">
+                                    {{ message }}
+                                </p>
+                            </div>
+                            <div class="ml-4 flex-shrink-0 flex">
+                                <button class="inline-flex text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow-lg mt-auto">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div class="text-gray-500 text-sm">
+                    © 2025 VaxCare. All rights reserved.
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-gray-500 transition-colors duration-200">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500 transition-colors duration-200">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500 transition-colors duration-200">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+    <script>
+        // Mobile menu functionality
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileMenuOverlay = document.createElement('div');
+        mobileMenuOverlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-40 hidden';
+        document.body.appendChild(mobileMenuOverlay);
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            mobileMenuOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenuFunction() {
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuButton.addEventListener('click', openMobileMenu);
+        closeMobileMenu.addEventListener('click', closeMobileMenuFunction);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenuFunction);
+
+        // Flash messages auto-dismiss
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.slide-in');
+            flashMessages.forEach(message => {
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                    message.style.transform = 'translateX(100%)';
+                    setTimeout(() => message.remove(), 300);
+                }, 5000);
+
+                const closeButton = message.querySelector('button');
+                closeButton.addEventListener('click', () => {
+                    message.style.opacity = '0';
+                    message.style.transform = 'translateX(100%)';
+                    setTimeout(() => message.remove(), 300);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

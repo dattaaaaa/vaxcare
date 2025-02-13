@@ -1,0 +1,95 @@
+<!-- index.html -->
+{% extends "base.html" %}
+
+{% block title %}Home - VaxCare{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-blue-100 rounded-full p-3">
+                        <i class="fas fa-calendar-check text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-5">
+                        <div class="text-sm font-medium text-gray-500">
+                            Upcoming Appointments
+                        </div>
+                        <div class="mt-1 text-2xl font-semibold text-gray-900">
+                            {{ upcoming_appointments|length }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add more stat cards here -->
+    </div>
+
+    <!-- Profile Appointments -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="border-b border-gray-200 bg-white px-6 py-4">
+                    <h3 class="text-lg font-medium text-gray-900">
+                        Upcoming Appointments by Profile
+                    </h3>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    {% for profile, appointments in profile_appointments.items() %}
+                    <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                        <h4 class="text-lg font-medium text-gray-900 mb-4">
+                            {{ profile.fname }} {{ profile.lname }}
+                        </h4>
+                        {% for appointment in appointments %}
+                        <div class="ml-4 mb-4 last:mb-0">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-syringe text-blue-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">
+                                            {{ appointment.vaccine.name }}
+                                        </p>
+                                        <p class="text-sm text-gray-500">
+                                            {{ appointment.appointment_date.strftime('%B %d, %Y') }} at {{ appointment.time_slot.strftime('%I:%M %p') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <button onclick="window.location.href='{{ url_for('cancel_appointment', appointment_id=appointment.appointment_id) }}'"
+                                        class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="space-y-6">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Quick Actions</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <a href="{{ url_for('book_appointment') }}"
+                       class="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Book New Appointment
+                    </a>
+                    <a href="{{ url_for('create_profile') }}"
+                       class="block w-full text-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Add New Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

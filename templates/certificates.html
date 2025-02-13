@@ -1,0 +1,124 @@
+<!-- certificates.html -->
+{% extends "base.html" %}
+
+{% block title %}Vaccination Certificates - VaxCare{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-lg">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-2xl font-bold text-white">Vaccination Certificates</h1>
+            <p class="mt-1 text-blue-100">Download and manage your vaccination certificates</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <!-- Profile Selection Tabs -->
+        <div class="border-b border-gray-200">
+            <nav class="-mb-px flex" aria-label="Tabs">
+                {% for profile in profiles %}
+                <button onclick="showProfile({{ profile.profile_id }})"
+                        class="profile-tab w-1/4 py-4 px-1 text-center border-b-2 font-medium text-sm cursor-pointer
+                               {% if loop.first %}
+                               border-blue-500 text-blue-600
+                               {% else %}
+                               border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300
+                               {% endif %}"
+                        data-profile-id="{{ profile.profile_id }}">
+                    {{ profile.fname }} {{ profile.lname }}
+                </button>
+                {% endfor %}
+            </nav>
+        </div>
+
+        <!-- Certificates List -->
+        {% for profile in profiles %}
+        <div id="profile-{{ profile.profile_id }}" 
+             class="profile-content {% if not loop.first %}hidden{% endif %}">
+            <div class="px-4 py-5 sm:p-6">
+                <div class="space-y-6">
+                    {% set appointments = profile_appointments[profile.profile_id] %}
+                    {% if appointments %}
+                        {% for appointment in appointments %}
+                        <div class="bg-gray-50 rounded-lg p-6 flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0">
+                                    <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
+                                        <i class="fas fa-certificate text-blue-600 text-xl"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-900">
+                                        {{ appointment.vaccine.name }} Certificate
+                                    </h3>
+                                    <div class="mt-1 text-sm text-gray-500">
+                                        <p>Vaccinated on {{ appointment.appointment_date.strftime('%B %d, %Y') }}</p>
+                                        <p>{{ appointment.schedule.centre.name }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                {% set appt_date_str = appointment.appointment_date.strftime('%Y-%m-%d') %}
+                                {% if appt_date_str <= current_date_str %}
+                                    <a href="{{ url_for('download_certificate', appointment_id=appointment.appointment_id) }}"
+                                       class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                        <i class="fas fa-download mr-2"></i>
+                                        Download Certificate
+                                    </a>
+                                {% else %}
+                                    <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md cursor-not-allowed">
+                                        Vaccination not completed yet
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-12">
+                            <div class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gray-100 mb-4">
+                                <i class="fas fa-file-medical text-2xl text-gray-400"></i>
+                            </div>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">No certificates available</h3>
+                            <p class="mt-1 text-sm text-gray-500">
+                                No vaccination records found for this profile.
+                            </p>
+                            <div class="mt-6">
+                                <a href="{{ url_for('book_appointment') }}"
+                                   class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Book Vaccination
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function showProfile(profileId) {
+    // Hide all profile contents
+    document.querySelectorAll('.profile-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+    
+    // Show selected profile content
+    document.getElementById(`profile-${profileId}`).classList.remove('hidden');
+    
+    // Update tab styles
+    document.querySelectorAll('.profile-tab').forEach(tab => {
+        tab.classList.remove('border-blue-500', 'text-blue-600');
+        tab.classList.add('border-transparent', 'text-gray-500');
+    });
+    
+    // Highlight selected tab
+    document.querySelector(`[data-profile-id="${profileId}"]`).classList.add('border-blue-500', 'text-blue-600');
+    document.querySelector(`[data-profile-id="${profileId}"]`).classList.remove('border-transparent', 'text-gray-500');
+}
+</script>
+{% endblock %}

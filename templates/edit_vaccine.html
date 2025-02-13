@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Vaccine - VaxCare{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">Edit Vaccine</h2>
+        </div>
+        <form method="POST" class="p-6 space-y-4">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Vaccine Name</label>
+                <input type="text" name="name" id="name" value="{{ vaccine.name }}" required
+                       class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="description" id="description" rows="3" required
+                          class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ vaccine.description }}</textarea>
+            </div>
+            <div>
+                <label for="min_age" class="block text-sm font-medium text-gray-700">Minimum Age</label>
+                <input type="number" name="min_age" id="min_age" value="{{ vaccine.min_age }}" required
+                       class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="max_age" class="block text-sm font-medium text-gray-700">Maximum Age</label>
+                <input type="number" name="max_age" id="max_age" value="{{ vaccine.max_age }}" required
+                       class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="flex justify-end space-x-4">
+                <a href="{{ url_for('manage_vaccines') }}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">Cancel</a>
+                <button type="submit" class="px-4 py-2 border border-transparent text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Login - VaxCare{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full bg-white p-6 rounded-lg shadow-md">
+        <div class="text-center">
+            <i class="fas fa-syringe text-blue-600 text-4xl"></i>
+            <h2 class="mt-4 text-2xl font-semibold text-gray-900">Sign in to your account</h2>
+            <p class="mt-2 text-sm text-gray-600">Access your vaccination portal</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="mt-4 p-3 text-sm text-white bg-{{ category }}-500 rounded-md">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form class="mt-6 space-y-4" method="POST" action="{{ url_for('login') }}">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                <input type="email" name="email" id="email" required
+                       class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                       placeholder="Enter your email">
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" name="password" id="password" required
+                       class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                       placeholder="Enter your password">
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox"
+                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">Remember me</label>
+                </div>
+            </div>
+            <div>
+                <button type="submit"
+                        class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Sign in
+                </button>
+            </div>
+        </form>
+        <p class="mt-4 text-center text-sm text-gray-600">Don't have an account?
+            <a href="{{ url_for('register') }}" class="text-blue-600 hover:underline">Register here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

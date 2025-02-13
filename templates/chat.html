@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}Chat Assistant - VaxCare{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Animated Welcome Banner -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-lg transform transition hover:scale-[1.005] hover:shadow-xl">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="text-white flex items-center space-x-4">
+                <div class="flex-shrink-0 animate-bounce">
+                    <i class="fas fa-comment-medical text-3xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">VaxCare Assistant</h1>
+                    <p class="mt-1 text-blue-100 font-light">Your 24/7 vaccination companion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Interface Container -->
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+        <div class="grid grid-cols-1 md:grid-cols-5 divide-x divide-gray-200">
+            <!-- Enhanced Sidebar -->
+            <div class="p-4 bg-gradient-to-b from-blue-50 to-white">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-bolt text-blue-500 mr-2"></i>
+                    Quick Help
+                </h3>
+                <div class="space-y-3">
+                    <button onclick="suggestAction('book appointment')" 
+                            class="w-full group flex items-center space-x-3 px-4 py-3 text-sm rounded-xl transition-all 
+                                   bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-300 
+                                   hover:shadow-sm">
+                        <div class="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition">
+                            <i class="fas fa-calendar-check text-blue-600"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-medium text-gray-700">Book Appointment</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Schedule vaccinations</p>
+                        </div>
+                    </button>
+                    
+                    <button onclick="suggestAction('create profile')"
+                            class="w-full group flex items-center space-x-3 px-4 py-3 text-sm rounded-xl transition-all 
+                                   bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-300 
+                                   hover:shadow-sm">
+                        <div class="p-2 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition">
+                            <i class="fas fa-user-plus text-purple-600"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-medium text-gray-700">Create Profile</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Add family members</p>
+                        </div>
+                    </button>
+
+                    <button onclick="suggestAction('view appointments')"
+                            class="w-full group flex items-center space-x-3 px-4 py-3 text-sm rounded-xl transition-all 
+                                   bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-300 
+                                   hover:shadow-sm">
+                        <div class="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition">
+                            <i class="fas fa-list-ul text-green-600"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-medium text-gray-700">View Appointments</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Check upcoming</p>
+                        </div>
+                    </button>
+
+                    <button onclick="suggestAction('vaccine information')"
+                            class="w-full group flex items-center space-x-3 px-4 py-3 text-sm rounded-xl transition-all 
+                                   bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-300 
+                                   hover:shadow-sm">
+                        <div class="p-2 bg-orange-100 rounded-lg group-hover:bg-orange-200 transition">
+                            <i class="fas fa-syringe text-orange-600"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-medium text-gray-700">Vaccine Info</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Learn about vaccines</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Enhanced Chat Area -->
+            <div class="col-span-4 flex flex-col h-[700px]">
+                <!-- Messages Container with Gradient Background -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-gray-50 to-blue-50">
+                    <!-- Welcome Message -->
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm">
+                                <i class="fas fa-robot text-white text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="ml-2 max-w-3xl">
+                            <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                <p class="text-sm text-gray-800 leading-relaxed">
+                                    Hello! I'm your VaxCare assistant. I can help you with:
+                                </p>
+                                <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-700">
+                                    <li>Booking vaccination appointments</li>
+                                    <li>Managing family health profiles</li>
+                                    <li>Providing vaccine information</li>
+                                    <li>Tracking immunization schedules</li>
+                                </ul>
+                                <div class="mt-3 text-xs text-gray-500">Last updated: Just now</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typing Indicator -->
+                <div id="typing-indicator" class="hidden px-6 pb-4">
+                    <div class="flex items-center space-x-2 text-gray-500">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                        </div>
+                        <span class="text-sm">Assistant is typing...</span>
+                    </div>
+                </div>
+
+                <!-- Enhanced Input Area -->
+                <div class="border-t border-gray-200 bg-white">
+                    <form id="chat-form" class="flex items-center space-x-3 p-4">
+                        <div class="flex-1 relative">
+                            <input type="text" id="user-input" 
+                                   class="w-full rounded-xl border-0 shadow-sm pl-12 pr-4 py-3 bg-gray-50 
+                                          focus:ring-2 focus:ring-blue-500 focus:bg-white placeholder-gray-500
+                                          transition-all duration-200"
+                                   placeholder="Ask about vaccines, appointments...">
+                            <div class="absolute left-4 top-3.5 text-gray-400">
+                                <i class="fas fa-comment-medical"></i>
+                            </div>
+                        </div>
+                        <button type="submit"
+                                class="flex items-center justify-center h-12 w-12 rounded-xl bg-blue-600 hover:bg-blue-700 
+                                       transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                                       focus:ring-offset-2 shadow-sm"
+                                id="send-button">
+                            <i class="fas fa-paper-plane text-white"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+function appendMessage(message, isUser, isError = false) {
+    const messagesDiv = document.getElementById('chat-messages');
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `flex items-start space-x-3 ${isUser ? 'flex-row-reverse' : ''}`;
+    
+    const iconDiv = document.createElement('div');
+    iconDiv.className = `flex-shrink-0 ${isUser ? 'ml-3' : ''}`;
+    iconDiv.innerHTML = `
+        <div class="h-10 w-10 rounded-xl ${isUser ? 
+            'bg-gradient-to-br from-gray-600 to-gray-700' : 
+            'bg-gradient-to-br from-blue-500 to-blue-600'} 
+            flex items-center justify-center shadow-sm">
+            <i class="fas fa-${isUser ? 'user' : 'robot'} text-white text-lg"></i>
+        </div>
+    `;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = `${isUser ? 'mr-2' : 'ml-2'} max-w-3xl`;
+    contentDiv.innerHTML = `
+        <div class="${isError ? 
+            'bg-red-50 border border-red-200' : 
+            'bg-white shadow-sm'} 
+            rounded-2xl p-4 relative ${isUser ? 'bg-blue-50' : ''}">
+            <p class="text-sm ${isError ? 'text-red-700' : 'text-gray-800'} leading-relaxed">${message}</p>
+            <div class="mt-2 text-xs ${isError ? 'text-red-500' : 'text-gray-500'}">${timestamp}</div>
+            ${isUser ? `
+            <div class="absolute top-4 -left-1.5 w-3 h-3 bg-blue-50 transform rotate-45"></div>
+            ` : `
+            <div class="absolute top-4 -left-1.5 w-3 h-3 bg-white transform rotate-45"></div>
+            `}
+        </div>
+    `;
+    
+    messageDiv.appendChild(iconDiv);
+    messageDiv.appendChild(contentDiv);
+    messagesDiv.appendChild(messageDiv);
+    
+    // Smooth scroll to bottom
+    messagesDiv.scrollTo({
+        top: messagesDiv.scrollHeight,
+        behavior: 'smooth'
+    });
+}
+
+function showTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.classList.remove('hidden');
+}
+
+function hideTypingIndicator() {
+    document.getElementById('typing-indicator').classList.add('hidden');
+}
+
+function suggestAction(action) {
+    const input = document.getElementById('user-input');
+    input.value = action;
+    input.focus();
+}
+
+document.getElementById('chat-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('user-input');
+    const button = document.getElementById('send-button');
+    const message = input.value.trim();
+    if (!message) return;
+
+    // Disable input and button during processing
+    input.disabled = true;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner animate-spin text-white"></i>';
+
+    // Append user message
+    appendMessage(message, true);
+    input.value = '';
+
+    try {
+        showTypingIndicator();
+        
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ message: message })
+        });
+
+        const data = await response.json();
+        hideTypingIndicator();
+        
+        if (data.error) {
+            appendMessage(`Error: ${data.error}`, false, true);
+        } else {
+            appendMessage(data.response, false);
+        }
+    } catch (error) {
+        hideTypingIndicator();
+        appendMessage('Connection error. Please check your network and try again.', false, true);
+    } finally {
+        input.disabled = false;
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-paper-plane text-white"></i>';
+        input.focus();
+    }
+});
+
+// Auto-resize input field
+document.getElementById('user-input').addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+});
+</script>
+
+<style>
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.animate-bounce {
+    animation: bounce 1.5s infinite;
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+</style>
+{% endblock %}
+{% endblock %}

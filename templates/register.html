@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Register - VaxCare{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto py-10 px-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-center text-2xl font-semibold text-gray-900">Create Account</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="mt-4 p-3 text-sm text-white bg-{{ category }}-500 rounded-md">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('register') }}" class="mt-6 space-y-4" onsubmit="return validateForm()">
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+            <input type="email" name="email" id="email" required
+                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <div id="emailError" class="text-red-500 text-xs mt-1"></div>
+        </div>
+
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password" name="password" id="password" required minlength="8"
+                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <p class="text-xs text-gray-500 mt-1">Password must be at least 8 characters long</p>
+            <div id="passwordError" class="text-red-500 text-xs mt-1"></div>
+        </div>
+
+        <div>
+            <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <input type="password" name="confirm_password" id="confirm_password" required minlength="8"
+                   class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <div id="confirmPasswordError" class="text-red-500 text-xs mt-1"></div>
+        </div>
+
+        <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Register
+        </button>
+    </form>
+
+    <p class="mt-4 text-center text-sm text-gray-600">Already have an account?
+        <a href="{{ url_for('login') }}" class="text-blue-600 hover:underline">Login here</a>
+    </p>
+</div>
+
+<script>
+    function validateForm() {
+        let isValid = true;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('passwordError').textContent = '';
+        document.getElementById('confirmPasswordError').textContent = '';
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById('emailError').textContent = 'Please enter a valid email address';
+            isValid = false;
+        }
+
+        if (password.length < 8) {
+            document.getElementById('passwordError').textContent = 'Password must be at least 8 characters long';
+            isValid = false;
+        }
+
+        if (password !== confirmPassword) {
+            document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,700 @@
+{% extends "base.html" %}
+
+{% block title %}Home - VaxCare{% endblock %}
+
+{% block content %}
+<!-- ============================================================================= -->
+<!--                           HERO SECTION START                                 -->
+<!-- ============================================================================= -->
+<!-- Hero Section with Enhanced Styling and Dynamic Background -->
+<section class="w-full relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">
+    <!-- Particle Background Effect -->
+    <div class="absolute inset-0 bg-dot-white/[0.2] pointer-events-none"></div>
+    
+    <!-- Animated Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-blue-500/20 to-indigo-700/20 animate-gradient-x"></div>
+    
+    <!-- Floating Geometric Shapes -->
+    <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+      <div class="absolute top-10 left-20 w-60 h-60 bg-blue-500 rounded-full mix-blend-overlay blur-3xl animate-float"></div>
+      <div class="absolute bottom-20 right-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-overlay blur-3xl animate-float-inverse"></div>
+    </div>
+  
+    <!-- Hero Content Container -->
+    <div class="relative z-10 container px-6 md:px-12 lg:px-24">
+      <div class="grid md:grid-cols-2 items-center gap-12">
+        <!-- Text Content -->
+        <div class="space-y-6 text-center md:text-left">
+          <div class="inline-block px-4 py-2 bg-white/10 text-white rounded-full border border-white/20 text-sm tracking-wide">
+            New: AI-Powered Vaccination Management
+          </div>
+          
+          <h1 class="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text 
+                     bg-gradient-to-r from-blue-200 via-white to-blue-300 
+                     leading-tight tracking-tight">
+            VaxCare
+            <br/>
+            <span class="text-3xl md:text-4xl">Smart Vaccination Companion</span>
+          </h1>
+          
+          <p class="text-xl text-gray-200 leading-relaxed max-w-xl mx-auto md:mx-0">
+            Revolutionizing vaccination management with cutting-edge AI, personalized insights, and seamless digital vaccination tracking.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start pt-6">
+            <a href="{{ url_for('login') }}" class="px-8 py-4 bg-white text-indigo-900 rounded-full 
+               font-semibold hover:bg-gray-100 transition transform hover:scale-105 
+               shadow-xl hover:shadow-2xl">
+              Get Started
+            </a>
+            <a href="#features" class="px-8 py-4 bg-transparent border-2 border-white/50 
+               text-white rounded-full font-semibold hover:bg-white/10 
+               transition transform hover:scale-105">
+              Learn More
+            </a>
+          </div>
+        </div>
+        
+        <!-- Illustration/Mockup -->
+        <div class="hidden md:flex justify-center items-center relative">
+          <div class="w-96 h-96 bg-white/10 backdrop-blur-xl rounded-3xl 
+                      border border-white/20 p-6 shadow-2xl 
+                      flex items-center justify-center">
+                      <img src="https://i.postimg.cc/wvB2Tt97/9c028a70-f3a6-4dcc-9c15-1fcb83fe34ac.webp" 
+                      alt="VaxCare Illustration" 
+                      class="w-full h-full object-cover rounded-3xl animate-float-slow"/>
+                 
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <style>
+    @keyframes gradient-x {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+  
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+  
+    .animate-gradient-x {
+      background-size: 200% 200%;
+      animation: gradient-x 15s ease infinite;
+    }
+  
+    .animate-float {
+      animation: float 8s ease-in-out infinite;
+    }
+  
+    .animate-float-inverse {
+      animation: float 10s ease-in-out infinite reverse;
+    }
+  
+    .animate-float-slow {
+      animation: float 12s ease-in-out infinite;
+    }
+  
+    .bg-dot-white\/\[0\.2\] {
+      background-image: 
+        radial-gradient(circle at 1px 1px, rgba(255,255,255,0.2) 1px, transparent 0);
+      background-size: 30px 30px;
+    }
+  </style>
+<!-- ============================================================================= -->
+<!--                           HERO SECTION END                                   -->
+<!-- ============================================================================= -->
+
+
+
+
+<!-- ============================================================================= -->
+<!--                           FEATURES SECTION START                             -->
+<!-- ============================================================================= -->
+<section id="features" class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <!-- Section Heading -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-800">Our Features</h2>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        VaxCare is designed with your convenience in mind. Explore a wide range of innovative features that empower you to manage your vaccination journey effectively.
+      </p>
+    </div>
+    <!-- Features Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      <!-- Feature Card 1: Profile Management -->
+      <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 p-6">
+        <div class="flex justify-center mb-6">
+          <img src="https://img.icons8.com/fluency/96/000000/user-male-circle.png" alt="Profile Management" class="w-20 h-20">
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">Profile Management</h3>
+        <p class="text-gray-600 text-center">
+          Easily create, update, and manage multiple user profiles with our intuitive dashboard. Keep track of your vaccination history and personal details with ease.
+        </p>
+        <ul class="mt-4 text-gray-700 list-disc list-inside">
+          <li>Multiple Profiles</li>
+          <li>Secure Data Storage</li>
+          <li>Easy Editing</li>
+        </ul>
+      </div>
+      <!-- Feature Card 2: Appointment Booking -->
+      <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 p-6">
+        <div class="flex justify-center mb-6">
+          <img src="https://img.icons8.com/fluency/96/000000/appointment-reminders.png" alt="Appointment Booking" class="w-20 h-20">
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">Appointment Booking</h3>
+        <p class="text-gray-600 text-center">
+          Schedule vaccination appointments seamlessly. View available slots, select your preferred time, and receive instant notifications.
+        </p>
+        <ul class="mt-4 text-gray-700 list-disc list-inside">
+          <li>Real-Time Slot Updates</li>
+          <li>Easy Rescheduling</li>
+          <li>Instant Alerts</li>
+        </ul>
+      </div>
+      <!-- Feature Card 3: Digital Certificates -->
+      <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 p-6">
+        <div class="flex justify-center mb-6">
+          <img src="https://img.icons8.com/fluency/96/000000/certificate.png" alt="Digital Certificates" class="w-20 h-20">
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">Digital Certificates</h3>
+        <p class="text-gray-600 text-center">
+          Generate official digital vaccination certificates with embedded QR codes for quick verification and easy sharing.
+        </p>
+        <ul class="mt-4 text-gray-700 list-disc list-inside">
+          <li>Official Format</li>
+          <li>QR Code Verification</li>
+          <li>Downloadable PDF</li>
+        </ul>
+      </div>
+      <!-- Feature Card 4: AI-Powered Insights -->
+      <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 p-6">
+        <div class="flex justify-center mb-6">
+          <img src="https://img.icons8.com/fluency/96/000000/artificial-intelligence.png" alt="AI-Powered Insights" class="w-20 h-20">
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">AI-Powered Insights</h3>
+        <p class="text-gray-600 text-center">
+          Leverage artificial intelligence to get personalized vaccine recommendations and real-time data analytics to manage your health.
+        </p>
+        <ul class="mt-4 text-gray-700 list-disc list-inside">
+          <li>Personalized Suggestions</li>
+          <li>Data-Driven Decisions</li>
+          <li>Health Analytics</li>
+        </ul>
+      </div>
+      <!-- Feature Card 5: Real-Time Notifications -->
+      <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 p-6">
+        <div class="flex justify-center mb-6">
+          <img src="https://img.icons8.com/fluency/96/000000/appointment-reminders.png" alt="Real-Time Reminders" class="w-20 h-20">
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">Real-Time Notifications</h3>
+        <p class="text-gray-600 text-center">
+          Stay informed with reminders that alert you about appointment confirmations, upcoming appointments, and changes in schedules.
+        </p>
+        <ul class="mt-4 text-gray-700 list-disc list-inside">
+          <li>Instant Alerts</li>
+          <li>Reminders</li>
+          <li>Acknowledgements</li>
+        </ul>
+      </div>
+      <!-- Feature Card 6: Secure Data Management -->
+      <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 p-6">
+        <div class="flex justify-center mb-6">
+          <img src="https://img.icons8.com/fluency/96/000000/lock-2.png" alt="Secure Data Management" class="w-20 h-20">
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">Secure Data Management</h3>
+        <p class="text-gray-600 text-center">
+          Your privacy is our priority. All your data is stored with advanced encryption standards and secured protocols.
+        </p>
+        <ul class="mt-4 text-gray-700 list-disc list-inside">
+          <li>Data Encryption</li>
+          <li>Regular Security Audits</li>
+          <li>Privacy Focused</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============================================================================= -->
+<!--                           FEATURES SECTION END                               -->
+<!-- ============================================================================= -->
+
+
+
+
+<!-- ============================================================================= -->
+<!--                           SERVICES SECTION START                             -->
+<!-- ============================================================================= -->
+<section id="services" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <!-- Section Heading -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-800">Our Services</h2>
+      <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+        At VaxCare, we offer a range of services tailored to ensure your vaccination journey is smooth, secure, and user-friendly.
+      </p>
+    </div>
+    <!-- Services Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- Service Item 1: User Onboarding -->
+      <div class="flex items-center bg-gray-50 rounded-xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
+        <img src="https://img.icons8.com/color/96/000000/add-user-male.png" alt="User Onboarding" class="w-16 h-16 mr-6">
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">User Onboarding</h3>
+          <p class="text-gray-600">
+            Get started quickly with an easy registration process that allows you to create multiple profiles for family members.
+          </p>
+          <ul class="mt-3 text-gray-700 list-disc list-inside">
+            <li>Simple Signup Process</li>
+            <li>Multiple Family Profiles</li>
+            <li>Secure Account Management</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Service Item 2: Schedule Management -->
+      <div class="flex items-center bg-gray-50 rounded-xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
+        <img src="https://img.icons8.com/color/96/000000/appointment-reminders--v2.png" alt="Schedule Management" class="w-16 h-16 mr-6">
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">Schedule Management</h3>
+          <p class="text-gray-600">
+            Manage your appointments efficiently. Book, reschedule, or cancel appointments with just a few clicks.
+          </p>
+          <ul class="mt-3 text-gray-700 list-disc list-inside">
+            <li>Easy Rescheduling</li>
+            <li>Real-Time Availability</li>
+            <li>Automated Reminders</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Service Item 3: QR Verification -->
+      <div class="flex items-center bg-gray-50 rounded-xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
+        <img src="https://img.icons8.com/color/96/000000/qr-code.png" alt="QR Verification" class="w-16 h-16 mr-6">
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">QR Verification</h3>
+          <p class="text-gray-600">
+            Securely verify your vaccination certificates with a built-in QR code system that ensures authenticity.
+          </p>
+          <ul class="mt-3 text-gray-700 list-disc list-inside">
+            <li>Instant Verification</li>
+            <li>Official QR Codes</li>
+            <li>Secure Downloads</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Service Item 4: Customizable Options -->
+      <div class="flex items-center bg-gray-50 rounded-xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
+        <img src="https://img.icons8.com/color/96/000000/settings.png" alt="Customizable Options" class="w-16 h-16 mr-6">
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">Customizable Options</h3>
+          <p class="text-gray-600">
+            Personalize your vaccination experience by customizing appointment preferences and profile settings.
+          </p>
+          <ul class="mt-3 text-gray-700 list-disc list-inside">
+            <li>Adjustable Settings</li>
+            <li>Custom Alerts</li>
+            <li>Personalized Dashboard</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Service Item 5: AI-Powered Analytics -->
+      <div class="flex items-center bg-gray-50 rounded-xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
+        <img src="https://img.icons8.com/fluency/96/000000/artificial-intelligence.png" alt="AI-Powered Analytics" class="w-16 h-16 mr-6">
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">AI-Powered Analytics</h3>
+          <p class="text-gray-600">
+            Benefit from advanced analytics powered by AI to optimize your vaccination schedule and health decisions.
+          </p>
+          <ul class="mt-3 text-gray-700 list-disc list-inside">
+            <li>Insightful Responses</li>
+            <li>Data Driven Suggestions</li>
+            <li>Real-Time Analytics</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Service Item 6: AI Chat Support -->
+      <div class="flex items-center bg-gray-50 rounded-xl shadow-xl p-8 hover:shadow-2xl transition duration-300">
+        <img src="https://img.icons8.com/fluency/96/000000/chat.png" alt="AI Chat Support" class="w-16 h-16 mr-6">
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">AI Chat Support</h3>
+          <p class="text-gray-600">
+            Get immediate assistance from our AI-powered chat support for any queries regarding your vaccination process.
+          </p>
+          <ul class="mt-3 text-gray-700 list-disc list-inside">
+            <li>24/7 Assistance</li>
+            <li>Instant Responses</li>
+            <li>User-Friendly Interface</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============================================================================= -->
+<!--                           SERVICES SECTION END                               -->
+<!-- ============================================================================= -->
+
+
+
+
+<!-- ============================================================================= -->
+<!--                           FAQ SECTION START                                  -->
+<!-- ============================================================================= -->
+<section id="faq" class="py-20 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <!-- FAQ Section Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-800">Frequently Asked Questions</h2>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        Below are some common questions about VaxCare, our features, and our services. Click on any question to reveal the answer.
+      </p>
+    </div>
+    <!-- FAQ Accordion Container -->
+    <div class="space-y-6">
+      <!-- FAQ Item 1 -->
+      <div class="border border-gray-300 rounded-lg overflow-hidden">
+        <button class="w-full text-left px-6 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 faq-trigger" data-target="#faq1">
+          <span class="font-medium text-gray-800">What is VaxCare?</span>
+        </button>
+        <div id="faq1" class="px-6 py-4 bg-gray-50 faq-content hidden">
+          <p class="text-gray-700 leading-relaxed">
+            VaxCare is a comprehensive vaccination management system that allows users to create and manage profiles, book and reschedule appointments, generate secure digital certificates, and receive AI-powered insights to help optimize their vaccination journey.
+          </p>
+        </div>
+      </div>
+      <!-- FAQ Item 2 -->
+      <div class="border border-gray-300 rounded-lg overflow-hidden">
+        <button class="w-full text-left px-6 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 faq-trigger" data-target="#faq2">
+          <span class="font-medium text-gray-800">How do I book an appointment?</span>
+        </button>
+        <div id="faq2" class="px-6 py-4 bg-gray-50 faq-content hidden">
+          <p class="text-gray-700 leading-relaxed">
+            To book an appointment, log in to your account, select the appropriate profile, and choose from the available schedules and time slots. Once you confirm your selection, your appointment will be added to your dashboard.
+          </p>
+        </div>
+      </div>
+      <!-- FAQ Item 3 -->
+      <div class="border border-gray-300 rounded-lg overflow-hidden">
+        <button class="w-full text-left px-6 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 faq-trigger" data-target="#faq3">
+          <span class="font-medium text-gray-800">Can I reschedule or cancel an appointment?</span>
+        </button>
+        <div id="faq3" class="px-6 py-4 bg-gray-50 faq-content hidden">
+          <p class="text-gray-700 leading-relaxed">
+            Yes, you can reschedule or cancel appointments through your dashboard, provided that the appointment date has not already passed. Simply select the appointment you wish to change and follow the prompts.
+          </p>
+        </div>
+      </div>
+      <!-- FAQ Item 4 -->
+      <div class="border border-gray-300 rounded-lg overflow-hidden">
+        <button class="w-full text-left px-6 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 faq-trigger" data-target="#faq4">
+          <span class="font-medium text-gray-800">What are digital vaccination certificates?</span>
+        </button>
+        <div id="faq4" class="px-6 py-4 bg-gray-50 faq-content hidden">
+          <p class="text-gray-700 leading-relaxed">
+            Digital vaccination certificates are official documents generated by VaxCare that include all your vaccination details along with a QR code for verification. They serve as proof of immunization.
+          </p>
+        </div>
+      </div>
+      <!-- FAQ Item 5 -->
+      <div class="border border-gray-300 rounded-lg overflow-hidden">
+        <button class="w-full text-left px-6 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 faq-trigger" data-target="#faq5">
+          <span class="font-medium text-gray-800">How secure is my data on VaxCare?</span>
+        </button>
+        <div id="faq5" class="px-6 py-4 bg-gray-50 faq-content hidden">
+          <p class="text-gray-700 leading-relaxed">
+            Security is our top priority. All user data is encrypted and stored using advanced security protocols. We also conduct regular security audits to ensure that your information remains safe.
+          </p>
+        </div>
+      </div>
+      <!-- FAQ Item 6 -->
+      <div class="border border-gray-300 rounded-lg overflow-hidden">
+        <button class="w-full text-left px-6 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 faq-trigger" data-target="#faq6">
+          <span class="font-medium text-gray-800">What AI-powered features does VaxCare offer?</span>
+        </button>
+        <div id="faq6" class="px-6 py-4 bg-gray-50 faq-content hidden">
+          <p class="text-gray-700 leading-relaxed">
+            Our AI-powered features include personalized vaccine recommendations, predictive analytics for optimal scheduling, and data-driven insights that help you make informed health decisions.
+          </p>
+        </div>
+      </div>
+      <!-- FAQ Item 7 -->
+      <div class="border border-gray-300 rounded-lg overflow-hidden">
+        <button class="w-full text-left px-6 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 faq-trigger" data-target="#faq7">
+          <span class="font-medium text-gray-800">Is VaxCare available on mobile devices?</span>
+        </button>
+        <div id="faq7" class="px-6 py-4 bg-gray-50 faq-content hidden">
+          <p class="text-gray-700 leading-relaxed">
+            Absolutely. Our responsive design ensures that VaxCare is fully accessible and easy to use on mobile phones, tablets, and desktop computers.
+          </p>
+        </div>
+      </div>
+      <!-- FAQ Item 8 -->
+      <div class="border border-gray-300 rounded-lg overflow-hidden">
+        <button class="w-full text-left px-6 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 faq-trigger" data-target="#faq8">
+          <span class="font-medium text-gray-800">How do I contact support if I have an issue?</span>
+        </button>
+        <div id="faq8" class="px-6 py-4 bg-gray-50 faq-content hidden">
+          <p class="text-gray-700 leading-relaxed">
+            For any issues or queries, please refer to our Help section on the dashboard. Our support team, including AI chat support, is available 24/7 to assist you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============================================================================= -->
+<!--                           FAQ SECTION END                                    -->
+<!-- ============================================================================= -->
+
+
+
+
+
+
+
+
+<!-- ============================================================================= -->
+<!--                           NEWS & UPDATES SECTION START                       -->
+<!-- ============================================================================= -->
+<section id="news" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <!-- Section Heading -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-800">News & Updates</h2>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        Stay informed about the latest updates, feature releases, and news regarding VaxCare.
+      </p>
+    </div>
+    <!-- News Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- News Card 1 -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+        <img src="https://i.postimg.cc/2y811N6s/93a8989f-6964-4f05-ab47-b6a2504cb62d.webp" alt="News 1" class="w-full h-64 object-cover">
+        <div class="p-8">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">VaxCare Launches New AI Features</h3>
+          <p class="text-gray-600 mb-6">
+            We are thrilled to announce the integration of advanced AI-powered chatbot in VaxCare. These new features will help you make data-driven decisions regarding your vaccination schedule.
+          </p>
+          <a href="#" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300">
+            Read More
+          </a>
+        </div>
+      </div>
+      <!-- News Card 2 -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="News 2" class="w-full h-64 object-cover">
+        <div class="p-8">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Expansion of Vaccination Centres</h3>
+          <p class="text-gray-600 mb-6">
+            In our continuous efforts to make vaccinations more accessible, VaxCare has partnered with additional vaccination centres. Find a new centre near you and book your appointment today.
+          </p>
+          <a href="#" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300">
+            Read More
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============================================================================= -->
+<!--                           NEWS & UPDATES SECTION END                         -->
+<!-- ============================================================================= -->
+
+<!-- ============================================================================= -->
+<!--                           CREDITS SECTION START                              -->
+<!-- ============================================================================= -->
+
+<section class="relative py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900 overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 bg-dot-white/[0.05] pointer-events-none"></div>
+    <div class="absolute top-0 left-0 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+  
+    <div class="relative z-10 container mx-auto px-4">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <div class="inline-block mb-4 px-6 py-2 bg-white/10 text-white rounded-full border border-white/20 text-sm tracking-wide">
+          Academic Project Showcase
+        </div>
+        <h2 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 leading-tight mb-4">
+          Project Credits & Acknowledgements
+        </h2>
+        <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+          Developed as a Database Management Systems (DBMS) initiative by the following team members.
+        </p>
+      </div>
+  
+      <!-- Authors Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+        <!-- Author Card 1 -->
+        <div class="group relative bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-2 shadow-2xl shadow-black/20">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+          <div class="relative z-10">
+            <div class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 p-1 mx-auto">
+              <div class="bg-gray-900 rounded-full p-2 w-full h-full flex items-center justify-center">
+                <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">VD</span>
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2 text-center">Kota Vishnu Datta</h3>
+            <div class="flex justify-center space-x-4 mb-4">
+              <a href="#" class="text-blue-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.113.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+              <a href="mailto:kvishnudatta.ai22@rvce.edu.in" class="text-purple-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Author Card 2 -->
+        <div class="group relative bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-2 shadow-2xl shadow-black/20">
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+          <div class="relative z-10">
+            <div class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 p-1 mx-auto">
+              <div class="bg-gray-900 rounded-full p-2 w-full h-full flex items-center justify-center">
+                <span class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">CN</span>
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2 text-center">Chillale Naveen</h3>
+            <div class="flex justify-center space-x-4 mb-4">
+              <a href="#" class="text-pink-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+              </a>
+              <a href="mailto:chillalenaveen@rvce.edu.in" class="text-purple-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Author Card 3 -->
+        <div class="group relative bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-2 shadow-2xl shadow-black/20">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+          <div class="relative z-10">
+            <div class="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-blue-400 to-cyan-500 p-1 mx-auto">
+              <div class="bg-gray-900 rounded-full p-2 w-full h-full flex items-center justify-center">
+                <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">SB</span>
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2 text-center">D Sai Siva Bhaswanth</h3>
+            <div class="flex justify-center space-x-4 mb-4">
+              <a href="#" class="text-cyan-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+              <a href="mailto:dssbhaswanth.ai22@rvce.edu.in" class="text-blue-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Project Disclaimer -->
+      <div class="text-center border-t border-white/10 pt-8 max-w-3xl mx-auto">
+        <p class="text-base text-white mb-2">
+          🚨 Disclaimer: This simulation project is created for academic purposes only.
+        </p>
+        <p class="text-sm text-white">
+          All data presented is fictional and not intended for real-world medical use.<br>
+          RV College of Engineering, Bengaluru • Department of AIML • 2025
+        </p>
+      </div>      
+  </section>
+  <!-- ============================================================================= -->
+  <!--                           CREDITS SECTION END                                -->
+  <!-- ============================================================================= -->
+
+
+<!-- ============================================================================= -->
+<!--                           FOOTER SECTION START                               -->
+<!-- ============================================================================= -->
+<footer class="bg-gray-900 text-gray-300 py-12">
+  <div class="container mx-auto px-4">
+    <!-- Footer Top -->
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-6 md:mb-0">
+        <h3 class="text-3xl font-bold text-white">VaxCare</h3>
+        <p class="mt-2 text-gray-400">
+          Your partner in vaccination management.
+        </p>
+      </div>
+      <div>
+        <ul class="flex flex-wrap justify-center space-x-6">
+          <li><a href="#hero" class="hover:text-white transition">Home</a></li>
+          <li><a href="#features" class="hover:text-white transition">Features</a></li>
+          <li><a href="#services" class="hover:text-white transition">Services</a></li>
+          <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
+          <li><a href="#news" class="hover:text-white transition">News</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- Footer Bottom -->
+    <div class="mt-8 border-t border-gray-700 pt-6 text-center">
+      <p class="text-gray-500 mt-2">This is a simulation DBMS project only.</p>
+      <p class="text-gray-500 mt-2">Not for actual medical use. Demonstration purposes only.</p>
+    </div>
+  </div>
+</footer>
+<!-- ============================================================================= -->
+<!--                           FOOTER SECTION END                                 -->
+<!-- ============================================================================= -->
+
+
+
+
+<!-- ============================================================================= -->
+<!--                           SCRIPTS & INTERACTIVITY                           -->
+<!-- ============================================================================= -->
+<script>
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetID = this.getAttribute('href').slice(1);
+      const targetElement = document.getElementById(targetID);
+      if (targetElement) {
+        window.scroll({
+          top: targetElement.offsetTop - 70,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // FAQ Accordion functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqTriggers = document.querySelectorAll('.faq-trigger');
+    faqTriggers.forEach(trigger => {
+      trigger.addEventListener('click', function() {
+        const targetSelector = this.getAttribute('data-target');
+        const faqContent = document.querySelector(targetSelector);
+        if (faqContent.classList.contains('hidden')) {
+          faqContent.classList.remove('hidden');
+        } else {
+          faqContent.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Initialize AOS animations if available
+  if (typeof AOS !== 'undefined') {
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  }
+</script>
+<!-- ============================================================================= -->
+<!--                           END OF SCRIPTS & INTERACTIVITY                    -->
+<!-- ============================================================================= -->
+
+
+
+<!-- ============================================================================= -->
+<!--                           END OF HOME PAGE TEMPLATE                        -->
+<!-- ============================================================================= -->
+{% endblock %}

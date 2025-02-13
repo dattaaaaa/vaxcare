@@ -1,0 +1,266 @@
+<!-- user_dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}Dashboard - VaxCare{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Welcome Banner Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-lg">
+        <div class="max-w-7xl mx-auto py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                <div class="text-white">
+                    <h1 class="text-xl sm:text-2xl font-bold break-words">
+                        <span class="block sm:inline">Welcome back,</span>
+                        <span class="block sm:inline text-blue-100 text-lg sm:text-2xl truncate max-w-[200px] sm:max-w-none">
+                            {{ current_user.email }}
+                        </span>
+                    </h1>
+                    <p class="mt-1 text-blue-100 text-sm sm:text-base">Manage your vaccination appointments and profiles</p>
+                </div>
+                <div class="w-full sm:w-auto">
+                    <a href="{{ url_for('book_appointment') }}"
+                    class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-plus mr-2"></i>
+                        New Appointment
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Profiles Section -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                    <h2 class="text-lg font-medium text-gray-900">Your Profiles</h2>
+                    <a href="{{ url_for('create_profile') }}"
+                       class="inline-flex items-center px-3 py-1 border border-transparent rounded-md text-sm font-medium text-blue-600 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-plus mr-1"></i>
+                        Add
+                    </a>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    {% if profiles %}
+                        {% for profile in profiles %}
+                        <div class="p-4 hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-sm font-medium text-gray-900 truncate">
+                                        {{ profile.fname }} {{ profile.mname if profile.mname }} {{ profile.lname }}
+                                    </h3>
+                                    <p class="text-sm text-gray-500">
+                                        {{ profile.age }} years • {{ profile.gender }}
+                                    </p>
+                                </div>
+                                <a href="{{ url_for('edit_profile', profile_id=profile.profile_id) }}"
+                                   class="text-sm text-blue-600 hover:text-blue-800">
+                                    Edit
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="p-6 text-center text-gray-500">
+                            <i class="fas fa-user-plus text-4xl mb-2"></i>
+                            <p>No profiles found. Create one to book vaccinations.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments Section -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <h2 class="text-lg font-medium text-gray-900">Your Appointments</h2>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    {% if appointments %}
+                    {% for appointment in appointments %}
+                    <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0">
+                                    {% if appointment.appointment_date > today %}
+                                    <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-100">
+                                        <i class="fas fa-calendar text-blue-600"></i>
+                                    </span>
+                                    {% else %}
+                                    <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-100">
+                                        <i class="fas fa-check text-gray-600"></i>
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div class="min-w-0"> <!-- Added min-w-0 to allow text truncation -->
+                                    <div class="text-sm font-medium text-gray-900 truncate">
+                                        {{ appointment.vaccine.name }}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ appointment.appointment_date.strftime('%B %d, %Y') }} at {{ appointment.time_slot.strftime('%I:%M %p') }}
+                                    </div>
+                                    <div class="text-sm text-gray-500 truncate">
+                                        {{ appointment.schedule.centre.name }}
+                                    </div>
+                                    <div class="mt-1 flex items-center">
+                                        <i class="fas fa-user-circle text-gray-400 mr-1"></i>
+                                        <span class="text-sm text-gray-600 truncate">{{ appointment.profile.fname }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                                {% if appointment.appointment_date > today %}
+                                <button onclick="if(confirm('Are you sure you want to cancel this appointment?')) window.location.href='{{ url_for('cancel_appointment', appointment_id=appointment.appointment_id) }}'"
+                                        class="w-full sm:w-auto inline-flex items-center justify-center px-3 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-600 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                                    <i class="fas fa-times mr-2"></i>
+                                    Cancel
+                                </button>
+                                <button onclick="window.location.href='{{ url_for('reschedule_appointment', appointment_id=appointment.appointment_id) }}'"
+                                    class="w-full sm:w-auto inline-flex items-center justify-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    Reschedule
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="p-12 text-center">
+                        <div class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4">
+                            <i class="fas fa-calendar-plus text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">No appointments scheduled</h3>
+                        <p class="mt-1 text-sm text-gray-500">Get started by booking your first appointment.</p>
+                        <div class="mt-6">
+                            <a href="{{ url_for('book_appointment') }}"
+                               class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <i class="fas fa-plus mr-2"></i>
+                                Book Appointment
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Features Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Vaccination History Dropdown -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+    <button id="toggleHistory" type="button" onclick="toggleDropdown('historyList')"
+            class="w-full text-left px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between focus:outline-none">
+      <h2 class="text-lg font-medium text-gray-900">Vaccination History</h2>
+      <i id="historyIcon" class="fas fa-chevron-down text-gray-600 transition-transform duration-300"></i>
+    </button>
+    <div id="historyList" class="px-6 py-4 max-h-0 opacity-0 overflow-hidden transition-all duration-300">
+      {% if vaccination_history %}
+        <div class="space-y-4">
+          {% for appointment in vaccination_history %}
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-green-100">
+                <i class="fas fa-check text-green-600"></i>
+              </span>
+            </div>
+            <div class="ml-4">
+                <h4 class="text-sm font-medium text-gray-900 truncate">{{ appointment.vaccine.name }}</h4>
+              <p class="text-sm text-gray-500">
+                Completed • {{ appointment.appointment_date.strftime('%b %d, %Y') }}
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-sm text-gray-500">No vaccination history available.</div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <!-- Upcoming Reminders Dropdown (similar modifications) -->
+  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <button id="toggleReminders" type="button" onclick="toggleDropdown('remindersList')"
+            class="w-full text-left px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between focus:outline-none">
+      <h2 class="text-lg font-medium text-gray-900">Upcoming Reminders</h2>
+      <i id="remindersIcon" class="fas fa-chevron-down text-gray-600 transition-transform duration-300"></i>
+    </button>
+    <div id="remindersList" class="px-6 py-4 max-h-0 opacity-0 overflow-hidden transition-all duration-300">
+      {% if upcoming_reminders %}
+        <div class="space-y-4">
+          {% for appointment in upcoming_reminders %}
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-yellow-100">
+                <i class="fas fa-bell text-yellow-600"></i>
+              </span>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-sm font-medium text-gray-900">{{ appointment.vaccine.name }} Appointment</h4>
+              <p class="text-sm text-gray-500">
+                {% set days_remaining = (appointment.appointment_date - today).days %}
+                Due in {{ days_remaining }} day{% if days_remaining != 1 %}s{% endif %}
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-sm text-gray-500">No upcoming reminders.</div>
+      {% endif %}
+    </div>
+  </div>
+  
+  
+  
+        <!-- Health Tips -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Health Tips</h2>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-100">
+                                <i class="fas fa-lightbulb text-blue-600"></i>
+                            </span>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-sm font-medium text-gray-900">Stay Protected</h4>
+                            <p class="text-sm text-gray-500">Keep your vaccinations up to date</p>
+                        </div>
+                    </div>
+                    <!-- Add more health tips here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDropdown(dropdownId) {
+      const dropdown = document.getElementById(dropdownId);
+      // Choose the corresponding icon based on dropdown id.
+      const icon = document.getElementById(dropdownId === 'historyList' ? 'historyIcon' : 'remindersIcon');
+      
+      // If collapsed, expand it; if expanded, collapse it.
+      if (dropdown.style.maxHeight === "0px" || dropdown.style.maxHeight === "") {
+        dropdown.style.maxHeight = dropdown.scrollHeight + "px";
+        dropdown.style.opacity = "1";
+        icon.classList.add('transform', 'rotate-180');
+      } else {
+        dropdown.style.maxHeight = "0px";
+        dropdown.style.opacity = "0";
+        icon.classList.remove('transform', 'rotate-180');
+      }
+    }
+  </script>
+  
+  
+{% endblock %}

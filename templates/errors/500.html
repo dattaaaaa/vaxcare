@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}500 Server Error - VaxCare{% endblock %}
+
+{% block content %}
+<div class="min-h-[60vh] flex items-center justify-center">
+    <div class="text-center fade-in">
+        <div class="text-6xl text-danger mb-4">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">500</h1>
+        <p class="text-xl text-gray-600 mb-8">Oops! Something went wrong on our end.</p>
+        <div class="space-x-4">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">
+                <i class="fas fa-home mr-2"></i> Return Home
+            </a>
+            <button onclick="window.location.reload()" class="btn">
+                <i class="fas fa-redo mr-2"></i> Try Again
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

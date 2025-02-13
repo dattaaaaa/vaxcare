@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile - VaxCare{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">Edit Profile</h2>
+        </div>
+        <form method="POST" action="{{ url_for('edit_profile', profile_id=profile.profile_id) }}" class="p-6 space-y-4">
+            <div>
+                <label for="fname" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input type="text" name="fname" id="fname" value="{{ profile.fname }}" required
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="mname" class="block text-sm font-medium text-gray-700">Middle Name (Optional)</label>
+                <input type="text" name="mname" id="mname" value="{{ profile.mname }}"
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="lname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input type="text" name="lname" id="lname" value="{{ profile.lname }}" required
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                <input type="number" name="age" id="age" value="{{ profile.age }}" required
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                <select name="gender" id="gender" required
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="Male" {% if profile.gender == 'Male' %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if profile.gender == 'Female' %}selected{% endif %}>Female</option>
+                    <option value="Other" {% if profile.gender == 'Other' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <a href="{{ url_for('dashboard') }}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">Cancel</a>
+                <button type="submit" class="px-4 py-2 border border-transparent text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

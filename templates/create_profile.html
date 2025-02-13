@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Create Profile - VaxCare{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">Create a New Profile</h2>
+            <p class="mt-1 text-sm text-gray-600">Complete the form to add a new profile.</p>
+        </div>
+        <form method="POST" action="{{ url_for('create_profile') }}" class="p-6 space-y-4">
+            <div>
+                <label for="fname" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input type="text" name="fname" id="fname" required
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="mname" class="block text-sm font-medium text-gray-700">Middle Name (Optional)</label>
+                <input type="text" name="mname" id="mname"
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="lname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input type="text" name="lname" id="lname" required
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                <input type="number" name="age" id="age" required min="0" max="120"
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                <select name="gender" id="gender" required
+                    class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <a href="{{ url_for('dashboard') }}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">Cancel</a>
+                <button type="submit" class="px-4 py-2 border border-transparent text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Create Profile
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

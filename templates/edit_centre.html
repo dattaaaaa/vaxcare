@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Vaccination Center - VaxCare{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-900">Edit Vaccination Center</h2>
+        </div>
+        <form method="POST" class="p-6 space-y-4">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Center Name</label>
+                <input type="text" name="name" id="name" value="{{ centre.name }}" required
+                       class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                <textarea name="address" id="address" rows="3" required
+                          class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ centre.address }}</textarea>
+            </div>
+            <div>
+                <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+                <input type="text" name="district" id="district" value="{{ centre.district }}" required
+                       class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label for="pincode" class="block text-sm font-medium text-gray-700">Pincode</label>
+                <input type="text" name="pincode" id="pincode" value="{{ centre.pincode }}" required
+                       class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="flex justify-end space-x-4">
+                <a href="{{ url_for('manage_centres') }}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">Cancel</a>
+                <button type="submit" class="px-4 py-2 border border-transparent text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}Appointments Overview - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="space-y-8 p-6 bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-8 transform hover:scale-[1.01] transition-transform">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-white text-3xl font-bold">Appointments Overview</h2>
+                <p class="text-blue-100 mt-2 text-lg">Comprehensive view of all user appointments</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% set total_users = appointments|length %}
+        {% set total_appointments = namespace(count=0) %}
+        {% for email, profiles in appointments.items() %}
+            {% for profile, appts in profiles.items() %}
+                {% set total_appointments.count = total_appointments.count + appts|length %}
+            {% endfor %}
+        {% endfor %}
+        
+        <div class="bg-white rounded-xl shadow-md p-6 transform hover:scale-[1.02] transition-all duration-300">
+            <div class="flex items-center space-x-4">
+                <div class="bg-blue-100 p-3 rounded-lg">
+                    <i class="fas fa-users text-blue-600 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 text-sm font-medium">Total Users</h3>
+                    <p class="text-3xl font-bold text-gray-900">{{ total_users }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 transform hover:scale-[1.02] transition-all duration-300">
+            <div class="flex items-center space-x-4">
+                <div class="bg-green-100 p-3 rounded-lg">
+                    <i class="fas fa-calendar-check text-green-600 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 text-sm font-medium">Total Appointments</h3>
+                    <p class="text-3xl font-bold text-gray-900">{{ total_appointments.count }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 transform hover:scale-[1.02] transition-all duration-300">
+            <div class="flex items-center space-x-4">
+                <div class="bg-purple-100 p-3 rounded-lg">
+                    <i class="fas fa-chart-line text-purple-600 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-gray-500 text-sm font-medium">Avg. Appointments per User</h3>
+                    <p class="text-3xl font-bold text-gray-900">
+                        {{ "%.1f"|format(total_appointments.count / total_users if total_users > 0 else 0) }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0">
+            <div class="flex-1">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </span>
+                    <input type="text" 
+                           id="searchInput" 
+                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                           placeholder="Search by email, name, vaccine...">
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <select id="filterDistrict" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    <option value="">All Districts</option>
+                    {% set districts = [] %}
+                    {% for email, profiles in appointments.items() %}
+                        {% for profile, appts in profiles.items() %}
+                            {% for appt in appts %}
+                                {% if appt.district not in districts %}
+                                    {% set _ = districts.append(appt.district) %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                    {% for district in districts|sort %}
+                        <option value="{{ district }}">{{ district }}</option>
+                    {% endfor %}
+                </select>
+                <select id="filterVaccine" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                    <option value="">All Vaccines</option>
+                    {% set vaccines = [] %}
+                    {% for email, profiles in appointments.items() %}
+                        {% for profile, appts in profiles.items() %}
+                            {% for appt in appts %}
+                                {% if appt.vaccine not in vaccines %}
+                                    {% set _ = vaccines.append(appt.vaccine) %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                    {% for vaccine in vaccines|sort %}
+                        <option value="{{ vaccine }}">{{ vaccine }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointments List -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        {% for email, profiles in appointments.items() %}
+        <div class="appointment-group mb-6">
+            <!-- Email Header -->
+            <div class="bg-gray-50 p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                        <i class="fas fa-envelope mr-3 text-blue-500"></i>
+                        {{ email }}
+                    </h3>
+                    <span class="text-sm text-gray-500">
+                        {{ profiles|length }} profile(s)
+                    </span>
+                </div>
+            </div>
+            
+            {% for profile_name, appts in profiles.items() %}
+            <div class="profile-section p-6 border-b border-gray-100">
+                <!-- Profile Header -->
+                <div class="mb-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-blue-100 p-2 rounded-lg">
+                            <i class="fas fa-user text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-md font-medium text-gray-700">{{ profile_name }}</h4>
+                            <p class="text-sm text-gray-500">
+                                Age: {{ appts[0].age }} • Gender: {{ appts[0].gender }}
+                            </p>
+                        </div>
+                    </div>
+                    <span class="text-sm text-gray-500">
+                        {{ appts|length }} appointment(s)
+                    </span>
+                </div>
+                
+                <!-- Appointments Table -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vaccine</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dose</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for appt in appts %}
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900 font-medium">
+                                        {{ appt.date.strftime('%b %d, %Y') }}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ appt.time.strftime('%I:%M %p') }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 rounded-full text-sm font-medium
+                                        {% if 'COVID' in appt.vaccine %}bg-blue-100 text-blue-800
+                                        {% elif 'Flu' in appt.vaccine %}bg-green-100 text-green-800
+                                        {% else %}bg-purple-100 text-purple-800{% endif %}">
+                                        {{ appt.vaccine }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-900">
+                                    <span class="font-medium">Dose {{ appt.dose_number }}</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900">{{ appt.centre }}</div>
+                                    <div class="text-sm text-gray-500">{{ appt.district }}</div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const filterDistrict = document.getElementById('filterDistrict');
+    const filterVaccine = document.getElementById('filterVaccine');
+    
+    function filterAppointments() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedDistrict = filterDistrict.value.toLowerCase();
+        const selectedVaccine = filterVaccine.value.toLowerCase();
+        const groups = document.getElementsByClassName('appointment-group');
+        
+        Array.from(groups).forEach(group => {
+            const email = group.querySelector('h3').textContent.toLowerCase();
+            const profiles = group.getElementsByClassName('profile-section');
+            let groupVisible = false;
+            
+            Array.from(profiles).forEach(profile => {
+                const profileText = profile.textContent.toLowerCase();
+                const matchesSearch = !searchTerm || profileText.includes(searchTerm) || email.includes(searchTerm);
+                const matchesDistrict = !selectedDistrict || profileText.includes(selectedDistrict);
+                const matchesVaccine = !selectedVaccine || profileText.includes(selectedVaccine);
+                
+                if (matchesSearch && matchesDistrict && matchesVaccine) {
+                    profile.style.display = '';
+                    groupVisible = true;
+                } else {
+                    profile.style.display = 'none';
+                }
+            });
+            
+            group.style.display = groupVisible ? '' : 'none';
+        });
+    }
+    
+    searchInput.addEventListener('keyup', filterAppointments);
+    filterDistrict.addEventListener('change', filterAppointments);
+    filterVaccine.addEventListener('change', filterAppointments);
+    
+    // Add smooth scrolling to profile sections
+    document.querySelectorAll('.appointment-group').forEach(group => {
+        group.querySelector('h3').addEventListener('click', () => {
+            const profiles = group.querySelector('.profile-section');
+            profiles.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+});
+</script>
+{% endblock %}
