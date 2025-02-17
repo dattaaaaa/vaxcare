@@ -44,6 +44,34 @@ A comprehensive web-based vaccination management system built with Flask, allowi
 - **Security**: Werkzeug security
 - **Environment Management**: python-dotenv
 
+### Relational Database Creation with MySQL
+
+1. **Install MySQL**  
+   Ensure MySQL is installed on your system. You can download it from [MySQL's official website](https://dev.mysql.com/downloads/installer/) or use a package manager like `apt` (Linux) or `brew` (Mac).  
+
+2. **Create a Database and User**  
+   Log into MySQL and create a database for the application. Also, create a dedicated user with the necessary privileges.  
+
+3. **Enable SSL (If you are using an online instance of MySQL from providers like Aiven.io)**  
+    (Ignore this step if you are using a local MySQL database)
+   If using an online database or requiring encrypted connections, configure SSL and obtain the CA certificate.
+   - Encode the ca.pem (and client-cert.pem and client-key.pem if you have them) to Base64 string for compatibility with the given code.
+   ```bash
+    [Convert]::ToBase64String((Get-Content -Path "ca.pem" -Raw -Encoding Byte)) | Set-Content -Path "ca_base64.txt"
+    [Convert]::ToBase64String((Get-Content -Path "client-cert.pem" -Raw -Encoding Byte)) | Set-Content -Path "cert_base64.txt"
+    [Convert]::ToBase64String((Get-Content -Path "client-key.pem" -Raw -Encoding Byte)) | Set-Content -Path "key_base64.txt"
+   ```
+   - Add CA_PEM=your_base64_encoded_ca to your environent variables.
+
+4. **Update `.env` Configuration**  
+   Add your MySQL connection details to the `.env` file, including the `DATABASE_URL` and SSL certificate (that can be done by).  
+
+5. **Initialize the Database**  
+   Run migrations to set up the required tables and relationships.  
+
+6. **Verify Connection**  
+   Ensure the Flask application connects successfully to the MySQL database before running the server. 
+
 ## Installation
 
 1. Clone the repository:
