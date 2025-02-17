@@ -511,8 +511,8 @@ def role_required(roles):
 # Routes
 #@app.route('/create-admin', methods=['GET'])
 #def create_admin():
-#    admin_email = '1343431@vx.com' 
-#    admin_password = 'uydgdfausyfgawj'  
+#    admin_email = '' 
+#    admin_password = ''  
 
     # Check if the admin already exists
 #    if User.query.filter_by(email=admin_email).first():
