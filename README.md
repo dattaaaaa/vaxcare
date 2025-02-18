@@ -46,6 +46,10 @@ A comprehensive web-based vaccination management system built with Flask, allowi
 
 ## Relational Database Creation with MySQL
 
+- Relational Schema:
+![Relational Schema](Relational_Schema.png)
+
+
 1. **Install MySQL**  
    Ensure MySQL is installed on your system. You can download it from [MySQL's official website](https://dev.mysql.com/downloads/installer/) or use a package manager like `apt` (Linux) or `brew` (Mac).  
 
