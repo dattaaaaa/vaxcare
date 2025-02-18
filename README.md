@@ -124,19 +124,61 @@ gunicorn -c gunicorn_config.py app:app
 
 ```
 vaxcare/
-├── static/
-│   └── [static files and assets]
-├── templates/
-│   ├── admin/
-│   │   └── [admin template files]
-│   ├── errors/
-│   │   └── [error pages]
-│   └── [All other template files]
-├── .env
-├── .gitignore
-├── app.py
-├── gunicorn_config.py
-└── requirements.txt
+|   .env
+|   .gitignore
+|   app.py
+|   Create_tables.sql
+|   Entity-Relationship(ER)-diagram.png
+|   guincorn_config.py
+|   LICENSE
+|   Populate_all.sql
+|   project_structure.txt
+|   README.md
+|   Relational_Schema.png
+|   requirements.txt
+|   
++---Documents
+|       Report.pdf
+|       
++---static
+|       android-chrome-192x192.png
+|       android-chrome-512x512.png
+|       apple-touch-icon.png
+|       favicon-16x16.png
+|       favicon-32x32.png
+|       favicon.ico
+|       
+\---templates
+    |   admin_dashboard.html
+    |   base.html
+    |   book_appointment.html
+    |   certificates.html
+    |   chat.html
+    |   create_profile.html
+    |   edit_centre.html
+    |   edit_profile.html
+    |   edit_schedule.html
+    |   edit_vaccine.html
+    |   home.html
+    |   index.html
+    |   login.html
+    |   register.html
+    |   reschedule_appointment.html
+    |   temp.html
+    |   user_dashboard.html
+    |   vaccine_admin_dashboard.html
+    |   
+    +---admin
+    |       appointments_overview.html
+    |       edit_inventory.html
+    |       manage_centres.html
+    |       manage_inventory.html
+    |       manage_schedules.html
+    |       manage_vaccines.html
+    |       
+    \---errors
+            404.html
+            500.html
 ```
 
 ## Configuration
